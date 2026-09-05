@@ -22,7 +22,7 @@ export default function LoginPage() {
     try {
       const data = await loginUser(formData);
       dispatch(setCredentials(data));
-      router.push("/");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     }

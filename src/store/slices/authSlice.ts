@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import api from '@/lib/axios';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   user: any | null;
@@ -37,6 +38,28 @@ const authSlice = createSlice({
       state.loading = action.payload;
     },
   },
+});
+
+export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, { dispatch }) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const response = await api.get('/auth/me');
+
+    // If successful, update state
+    dispatch(setCredentials({ user: response.data, token }));
+    return response.data;
+  } catch (error: any) {
+    console.error("Auth Check Failed:", error.response?.data);
+
+    // Only remove token if the server explicitly says it's invalid (401/403)
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      localStorage.removeItem('token');
+      dispatch(logout());
+    }
+    throw error;
+  }
 });
 
 export const { setCredentials, logout, setLoading } = authSlice.actions;
