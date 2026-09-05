@@ -14,3 +14,8 @@ export const getBoardDetails = async (id: string) => {
     const response = await api.get(`/boards/${id}`);
     return response.data;
 };
+
+export const shareBoard = async (boardId: string, email: string) => {
+    const response = await api.post(`/boards/${boardId}/share`, { email });
+    return response.data;
+};

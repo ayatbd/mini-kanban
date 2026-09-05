@@ -1,4 +1,6 @@
 import * as boardApi from '@/lib/api/board';
+import * as columnApi from '@/lib/api/column';
+import * as taskApi from '@/lib/api/task';
 import api from '@/lib/axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
@@ -31,6 +33,20 @@ export const fetchBoardDetails = createAsyncThunk(
     }
 );
 
+export const addColumn = createAsyncThunk(
+    'columns/add',
+    async ({ name, boardId }: { name: string; boardId: string }) => {
+        return await columnApi.createColumn(name, boardId);
+    }
+);
+
+export const addTask = createAsyncThunk(
+    'tasks/add',
+    async ({ title, columnId, boardId }: { title: string; columnId: string; boardId: string }) => {
+        return await taskApi.createTask(title, columnId, boardId);
+    }
+);
+
 // Thunk to update task position in backend
 export const moveTask = createAsyncThunk(
     'tasks/move',
@@ -40,6 +56,17 @@ export const moveTask = createAsyncThunk(
             destinationIndex,
         });
         return response.data;
+    }
+);
+
+export const shareBoardWithUser = createAsyncThunk(
+    'boards/share',
+    async ({ boardId, email }: { boardId: string; email: string }, { rejectWithValue }) => {
+        try {
+            return await boardApi.shareBoard(boardId, email);
+        } catch (err: any) {
+            return rejectWithValue(err.response.data.message);
+        }
     }
 );
 
