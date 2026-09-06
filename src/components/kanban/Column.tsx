@@ -14,7 +14,7 @@ export const Column = ({
 }) => {
   return (
     <div className="w-80 bg-gray-100 rounded-lg flex flex-col max-h-full">
-      <div className="p-4 font-bold text-gray-700 flex justify-between items-center">
+      <div className="p-4 capitalize font-bold text-gray-700 flex justify-between items-center">
         {column.name}
         <span className="bg-gray-200 px-2 py-0.5 rounded text-xs">
           {tasks.length}

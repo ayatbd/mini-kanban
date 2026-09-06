@@ -13,7 +13,7 @@ export const TaskCard = ({ task, index }: { task: any; index: number }) => {
           className="mb-3"
         >
           <Card className="p-3 shadow-sm hover:shadow-md transition-shadow bg-white">
-            <p className="text-sm font-medium">{task.title}</p>
+            <p className="text-sm font-medium capitalize">{task.title}</p>
           </Card>
         </div>
       )}

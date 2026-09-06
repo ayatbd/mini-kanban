@@ -107,10 +107,17 @@ const boardSlice = createSlice({
                 state.currentBoard = action.payload.board;
                 state.columns = action.payload.columns;
                 state.tasks = action.payload.tasks;
-            });
-        ;
-
-    },
+            })
+             .addCase(addColumn.fulfilled, (state, action) => {
+                // action.payload is the column object from the backend
+                state.columns.push(action.payload); 
+            })
+    
+            .addCase(addTask.fulfilled, (state, action) => {
+            // action.payload is the task object from the backend
+            state.tasks.push(action.payload);
+            })
+},
 });
 
 export const { setCurrentBoard, reorderTasks } = boardSlice.actions;
